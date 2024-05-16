@@ -6,6 +6,7 @@ import hashlib
 import base64
 import argparse
 import sys
+import os
 
 
 # 第三方库
@@ -51,7 +52,8 @@ def decrypt(encrypted_data, password):
 
 
 def handle_1(file_name):
-    handle_1_name = "tmp-" + file_name.strip(".xml") + ".txt"
+    inpu_filename_without_path = os.path.basename(file_name)
+    handle_1_name = "tmp-" + inpu_filename_without_path.strip(".xml") + ".txt"
     with open(file_name, "r", encoding="UTF-8") as fr:
         with open(handle_1_name, "w", encoding="UTF-8") as fw:
             lines = fr.readlines()
@@ -153,7 +155,9 @@ def main():
     elif string_name != None:
         encrypted_data = string_name
         encrypted_data = base64.b64decode(encrypted_data)
-        decrypt(encrypted_data, password)
+        dec_password = decrypt(encrypted_data, password)
+        print("password:",dec_password)
+        sys.exit(1)
     else:
         print("Please use either the file (-f, --file) or string (-s, --string) flag")
         sys.exit(1)
